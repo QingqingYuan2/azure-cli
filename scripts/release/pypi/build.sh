@@ -6,19 +6,16 @@
 
 set -e
 
-export
+: "${BUILD_STAGINGDIRECTORY:?BUILD_STAGINGDIRECTORY environment variable not set}"
+: "${BUILD_SOURCESDIRECTORY:=`cd $(dirname $0); cd ../../../; pwd`}"
 
-WORKDIR=`cd $(dirname $0); cd ../../../; pwd`
-: ${OUTPUT_DIR:=$WORKDIR/artifacts}
+cd $BUILD_SOURCESDIRECTORY
 
-if [ ! -d $OUTPUT_DIR ]; then
-    mkdir -p $OUTPUT_DIR
-fi
+echo "Search setup files from `pwd`."
 
-cd $WORKDIR
 for setup_file in $(find src -name 'setup.py' | grep -v azure-cli-testsdk); do
     pushd `dirname $setup_file`
-    python setup.py bdist_wheel -d $OUTPUT_DIR
-    python setup.py sdist -d $OUTPUT_DIR
+    python setup.py bdist_wheel -d $BUILD_STAGINGDIRECTORY
+    python setup.py sdist -d $BUILD_STAGINGDIRECTORY
     popd
 done
