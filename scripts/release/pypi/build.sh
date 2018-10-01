@@ -12,6 +12,10 @@ set -e
 cd $BUILD_SOURCESDIRECTORY
 
 echo "Search setup files from `pwd`."
+python --version
+
+pip install -U pip setuptools
+pip list
 
 for setup_file in $(find src -name 'setup.py' | grep -v azure-cli-testsdk); do
     pushd `dirname $setup_file`
