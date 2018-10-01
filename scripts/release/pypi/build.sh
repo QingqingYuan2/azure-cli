@@ -6,6 +6,8 @@
 
 set -e
 
+export
+
 WORKDIR=`cd $(dirname $0); cd ../../../; pwd`
 : ${OUTPUT_DIR:=$WORKDIR/artifacts}
 
