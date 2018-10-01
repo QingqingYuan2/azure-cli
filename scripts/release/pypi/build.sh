@@ -9,7 +9,9 @@ set -e
 WORKDIR=`cd $(dirname $0); cd ../../../; pwd`
 : ${OUTPUT_DIR:=$WORKDIR/artifacts}
 
-mkdir -p $OUTPUT_DIR
+if [ ! -d $OUTPUT_DIR ]; then
+    mkdir -p $OUTPUT_DIR
+fi
 
 cd $WORKDIR
 for setup_file in $(find src -name 'setup.py' | grep -v azure-cli-testsdk); do
