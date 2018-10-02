@@ -10,7 +10,7 @@ set -ex
 : ${DISTRO_BASE_IMAGE:?"DISTRO_BASE_IMAGE is not set"}
 
 docker run --rm \
-           -v `$BUILD_SOURCESDIRECTORY`:/mnt/repo \
+           -v "$BUILD_SOURCESDIRECTORY":/mnt/repo \
            -v "$BUILD_STAGINGDIRECTORY":/mnt/artifacts \
            -e OUTPUT_DIR=/mnt/artifacts \
            -e CLI_VERSION=$CLI_VERSION \
