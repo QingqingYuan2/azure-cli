@@ -28,7 +28,7 @@ az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy
                     --image $DISTRO_BASE_IMAGE \
                     --gitrepo-mount-path /mnt/repo \
                     --gitrepo-url $BUILD_REPOSITORY_URI \
-                    --gitrepo-revision $BUILD_SOURCEBRANCH \
+                    --gitrepo-revision $BUILD_SOURCEBRANCHNAME \
                     --azure-file-volume-account-name $STORAGE_NAME \
                     --azure-file-volume-account-key $STORAGE_KEY \
                     --azure-file-volume-mount-path /mnt/artifacts \
