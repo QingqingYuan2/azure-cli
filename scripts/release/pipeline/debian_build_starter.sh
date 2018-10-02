@@ -24,7 +24,7 @@ az group create -n $RG_NAME -l $LOCATION
 STORAGE_ACCOUNT_RG=`az storage account list --query "[?name=='$STORAGE_NAME'].resourceGroup" -otsv`
 STORAGE_KEY=$(az storage account keys list -g $STORAGE_ACCOUNT_RG -n $STORAGE_NAME --query "[1].value" -otsv)
 
-az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy Never --no-wait \
+az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy Never \
                     --image $DISTRO_BASE_IMAGE \
                     --gitrepo-mount-path /mnt/repo \
                     --gitrepo-url $BUILD_REPOSITORY_URI \
