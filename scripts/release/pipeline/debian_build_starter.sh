@@ -19,7 +19,7 @@ RG_NAME=clibuild$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-z0-9' | fold -w 8 
 LOCATION=centralus
 SHARE_NAME=$BUILD_BUILDNUMBER
 
-az group create -n $RG_NAME -l $LOCATION >/dev/null
+az group create -n $RG_NAME -l $LOCATION
 
 STORAGE_ACCOUNT_RG=`az storage account list --query "[?name=='$STORAGE_NAME'].resourceGroup" -otsv`
 STORAGE_KEY=$(az storage account keys list -g $STORAGE_ACCOUNT_RG -n $STORAGE_NAME --query "[1].value" -otsv)
