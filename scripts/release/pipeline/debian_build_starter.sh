@@ -3,7 +3,7 @@
 # Build APT package in an Azure Container Instances
 # This script assumes the Azure CLI is installed and logged in.
 
-set -e
+set -ex
 
 CLI_VERSION=$1
 DISTRO=$2
@@ -24,7 +24,7 @@ az group create -n $RG_NAME -l $LOCATION >/dev/null
 STORAGE_ACCOUNT_RG=`az storage account list --query "[?name=='$STORAGE_NAME'].resourceGroup" -otsv`
 STORAGE_KEY=$(az storage account keys list -g $STORAGE_ACCOUNT_RG -n $STORAGE_NAME --query "[1].value" -otsv)
 
-az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy Never \
+az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy Never --no-wait \
                     --image $DISTRO_BASE_IMAGE \
                     --gitrepo-mount-path /mnt/repo \
                     --gitrepo-url $BUILD_REPOSITORY_URI \
