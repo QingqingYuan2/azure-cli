@@ -15,7 +15,7 @@ STORAGE_NAME=$4
 : ${DISTRO_BASE_IMAGE:?"DISTRO_BASE_IMAGE is not set"}
 : ${STORAGE_NAME:?"STORAGE_NAME is not set"}
 
-RG_NAME=clibuild$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-z0-9' | fold -w 8 | head -n 1)
+RG_NAME="clibuild$BUILD_BUILDNUMBER"
 LOCATION=centralus
 SHARE_NAME=$BUILD_BUILDNUMBER
 
