@@ -8,12 +8,12 @@ set -ex
 CLI_VERSION=$1
 DISTRO=$2
 DISTRO_BASE_IMAGE=$3
-export AZURE_STORAGE_ACCOUNT=$4
+# export AZURE_STORAGE_ACCOUNT=$4
 
 : ${CLI_VERSION:?"CLI_VERSION is not set"}
 : ${DISTRO:?"DISTRO is not set"}
 : ${DISTRO_BASE_IMAGE:?"DISTRO_BASE_IMAGE is not set"}
-: ${AZURE_STORAGE_ACCOUNT:?"STORAGE_NAME is not set"}
+# : ${AZURE_STORAGE_ACCOUNT:?"STORAGE_NAME is not set"}
 
 RG_NAME="clibuild$BUILD_BUILDNUMBER"
 LOCATION=centralus
@@ -22,11 +22,18 @@ SHARE_NAME=$BUILD_BUILDNUMBER
 # STORAGE_ACCOUNT_RG=`az storage account list --query "[?name=='$AZURE_STORAGE_ACCOUNT'].resourceGroup" -otsv`
 # export AZURE_STORAGE_KEY=$(az storage account keys list -g $STORAGE_ACCOUNT_RG -n $AZURE_STORAGE_ACCOUNT --query "[1].value" -otsv)
 
+# az storage file batch-download 
+
 docker run --rm \
            -v `pwd`:/mnt/repo \
+           -v "$BUILD_STAGINGDIRECTORY":/mnt/artifacts \
+           -e OUTPUT_DIR=/mnt/artifacts \
+           -e CLI_VERSION=$CLI_VERSION \
+           -e CLI_VERSION_REVISION=1~$DISTRO \
            $DISTRO_BASE_IMAGE \
-           ls /mnt/repo
+           /mnt/repo/scripts/release/debian/build.sh
 
+ls -all $BUILD_STAGINGDIRECTORY
 
 # az container create -g $RG_NAME -n ${DISTRO}-build -l $LOCATION --restart-policy Never \
 #                     --image $DISTRO_BASE_IMAGE \
